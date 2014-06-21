@@ -17,6 +17,7 @@ class FixedSocialIcons {
 
 		add_action( 'admin_menu', array( $this, 'add_fsi_menu' ) );
 		add_action( 'admin_init', array( $this, 'regsiter_fsi_setting_fields' ) );
+		add_action( 'admin_enqueue_scripts', array( $this,  'wp_enqueue_color_picker' ) );
 		add_filter( 'plugin_action_links', array( $this, 'add_plugin_settings_link' ), 10, 2 );
 
 		add_action( 'wp_enqueue_scripts',  array( $this, 'add_style_sheet' ) );
@@ -201,6 +202,12 @@ div.fsi-social-icons-right,div.fsi-social-icons-left{
 <?php
 	}
 
+	function wp_enqueue_color_picker() {
+		wp_enqueue_style( 'wp-color-picker' );
+		wp_enqueue_script( 'wp-color-picker' );
+	}
+
+
 	function regsiter_fsi_setting_fields() {
 
 		add_settings_section( 'fsi_general_setting', '',  array( $this, 'fsi_general_setting_callback' ), 'fsi_settings' );
@@ -230,7 +237,7 @@ div.fsi-social-icons-right,div.fsi-social-icons-left{
 
 	function fsi_general_setting_callback() {
 
-	echo 'For icons use 48x48 size.';
+		echo 'For icons use 48x48 size.';
 	}
 
 	function icons_position( $args ) {
@@ -280,10 +287,10 @@ div.fsi-social-icons-right,div.fsi-social-icons-left{
 	function add_plugin_settings_link( $links, $file ) {
 
 
-		if ( $file == plugin_basename(__FILE__) ) {
+		if ( $file == plugin_basename( __FILE__ ) ) {
 
 			$settings_link = sprintf( '<a href="%s"> %s </a>', admin_url( 'admin.php?page=fsi_settings' ), __( 'Settings', 'plugin_domain' ) );
-			 array_unshift($links, $settings_link);
+			array_unshift( $links, $settings_link );
 		}
 
 
